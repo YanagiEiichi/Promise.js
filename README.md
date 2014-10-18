@@ -1,3 +1,3 @@
-Promise.js
+JSON.js
 ===========
-An ES6 Promise object polyfill, defined with AMD.
+An ES6 Promise object polyfill.

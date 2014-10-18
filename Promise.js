@@ -1,10 +1,11 @@
 ﻿/***********************************************************
-Author: 次碳酸钴（admin@web-tinker.com）
-Latest: 2014-10-15
-Git: https://github.com/YanagiEiichi/Promise.js
+  Author: 次碳酸钴 (admin@web-tinker.com)
+  Latest: 2014-10-19
+  Git: https://github.com/YanagiEiichi/Promise.js
 ***********************************************************/
 
-define(function(){
+var Promise;
+(function(){
   var global=Function("return this")();
   var nextTick=global.setImmediate||global.setTimeout;
   //Interal "promise" object strage structure.
@@ -27,7 +28,7 @@ define(function(){
     };
   };
   //Interfact of "Promise" constructor.
-  var Promise=function(resolver){
+  Promise=function(resolver){
     if(typeof resolver!="function")
       throw new TypeError("Promise resolver is not a function");
     //Initialize the storage area.
@@ -52,7 +53,7 @@ define(function(){
       //from now on.
       storage.status=1;
       //Unpack the value until it's not a Promise instance or reject.
-      if(value instanceof Promise)
+      if(value&&value.then&&value["catch"])
         value.then(function(value){
           storage.status=0,resolve(value);
         },function(value){
@@ -129,6 +130,7 @@ define(function(){
     return new Promise(function(resolve,reject){
       if(!(arr instanceof Array))throw "need an array";
       var results=[],count=arr.length,i;
+      if(count==0)resolve(results);
       for(i=0;i<arr.length;i++)(function(i){
         Promise.resolve(arr[i]).then(function(e){
           results[i]=e,--count||resolve(results);
@@ -145,4 +147,6 @@ define(function(){
     });
   };
   return Promise;
-});
+})();
+
+if(window.define&&define.amd)define(function(){ return Promise; });
