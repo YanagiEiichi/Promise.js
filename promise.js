@@ -1,11 +1,6 @@
-﻿/***********************************************************
-  Author: 次碳酸钴 (admin@web-tinker.com)
-  Latest: 2014-10-19
-  Git: https://github.com/YanagiEiichi/Promise.js
-***********************************************************/
-
 var Promise;
-(function(){
+void function(){
+  if(Promise)return;
   var global=Function("return this")();
   var nextTick=global.setImmediate||global.setTimeout;
   //Interal "promise" object strage structure.
@@ -147,6 +142,7 @@ var Promise;
     });
   };
   return Promise;
-})();
+}();
 
 if(window.define&&define.amd)define(function(){ return Promise; });
+
